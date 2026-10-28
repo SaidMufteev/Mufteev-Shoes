@@ -1,0 +1,27 @@
+﻿<Window x:Class="Mufteev_Shoe.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Mufteev_Shoe"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800" FontFamily="Calibri" Icon="res/Чудо Обувь.ico">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="75"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="30"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Orientation="Horizontal"   Background="#D2F6E7">
+            <Image Name="LogoImage" Source="res/Чудо Обувь.png" HorizontalAlignment="Left" Margin="10,5"/>
+            <TextBlock Text="Чудо Обувь" FontSize="30" VerticalAlignment="Center" FontWeight="Bold" Margin="20,0,0,0"/>
+        </StackPanel>
+
+        <Frame Grid.Row="1" Name="MainFrame" NavigationUIVisibility="Hidden" ContentRendered="MainFrame_ContentRendered"/>
+
+        <Grid Grid.Row="2" Background="#D2F6E7">
+            <Button Content="Назад" Name="BtnBack" Width="100" Height="22" HorizontalAlignment="Right" Margin="5" Click="BtnBack_Click"/>
+        </Grid>
+    </Grid>
+</Window>

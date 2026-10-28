@@ -1,0 +1,66 @@
+﻿<Page x:Class="Mufteev_Shoe.OrdersPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Mufteev_Shoe"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="OrdersPage">
+
+    <Grid Background="#D2F6E7">
+        <Border Background="White" CornerRadius="10" Margin="15" Padding="15">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="2*"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="1.5*"/>
+                    <RowDefinition Height="Auto"/>
+                    <!-- Панель добавления позиций -->
+                    <RowDefinition Height="Auto"/>
+                    <!-- Панель действий с заказом -->
+                </Grid.RowDefinitions>
+
+                <TextBlock Text="Список заказов компании «Чудо Обувь»" FontSize="22" FontWeight="Bold" Foreground="#70B2AF" Margin="5,0,5,10" Grid.Row="0"/>
+
+                <!-- 1. ТАБЛИЦА ВСЕХ ЗАКАЗОВ -->
+                <DataGrid Name="DGOrders" Grid.Row="1" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False" CanUserReorderColumns="False" FontSize="15" SelectionChanged="DGOrders_SelectionChanged" IsReadOnly="True">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="№ Заказа" Binding="{Binding id}" Width="70"/>
+                        <DataGridTextColumn Header="Дата оформления" Binding="{Binding order_date, StringFormat={}{0:dd.MM.yyyy HH:mm}}" Width="150"/>
+                        <DataGridTextColumn Header="Клиент (Фамилия)" Binding="{Binding users.last_name, FallbackValue='Не указан', TargetNullValue='Не указан'}" Width="120"/>
+                        <DataGridTextColumn Header="Клиент (Имя)" Binding="{Binding users.first_name, FallbackValue='Не указан', TargetNullValue='Не указан'}" Width="120"/>
+                        <DataGridTextColumn Header="Итоговая сумма" Binding="{Binding total_sum, StringFormat={}{0:N0} руб.}" Width="*"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+
+                <TextBlock Text="Состав выбранного заказа:" FontSize="16" FontWeight="Bold" Margin="5,15,5,5" Grid.Row="2"/>
+
+                <!-- 2. ТАБЛИЦА СОСТАВА КОНКРЕТНОГО ЗАКАЗА -->
+                <DataGrid Name="DGOrderDetails" Grid.Row="3" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False" CanUserReorderColumns="False" FontSize="14" CellEditEnding="DGOrderDetails_CellEditEnding">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Модель обуви" Binding="{Binding stock_items.products.title}" IsReadOnly="True" Width="2*"/>
+                        <DataGridTextColumn Header="Размер" Binding="{Binding stock_items.sizes.size_value}" IsReadOnly="True" Width="80"/>
+                        <DataGridTextColumn Header="Цена за пару" Binding="{Binding stock_items.products.price, StringFormat={}{0:N0} руб.}" IsReadOnly="True" Width="120"/>
+                        <DataGridTextColumn Header="Количество (шт.)" x:Name="ColQuantity" Binding="{Binding quantity, UpdateSourceTrigger=PropertyChanged}" Width="130"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+
+                <!-- 3. НОВОЕ: ПАНЕЛЬ ДОБАВЛЕНИЯ ПОЗИЦИЙ В ВЫБРАННЫЙ ЗАКАЗ ПО ТЗ -->
+                <StackPanel Name="PanelAddPosition" Grid.Row="4" Orientation="Horizontal" Margin="5,10,5,5" HorizontalAlignment="Left">
+                    <TextBlock Text="Добавить товар в этот чек: " VerticalAlignment="Center" FontSize="15" FontWeight="SemiBold"/>
+                    <ComboBox Name="ComboAddStockItem" Width="400" Height="28" Margin="10,0,10,0" FontSize="14" VerticalContentAlignment="Center"/>
+                    <Button Content="Добавить в состав" Name="BtnAddPositionToOrder" Click="BtnAddPositionToOrder_Click" Width="150" Height="28" Background="#70B2AF" Foreground="White" FontSize="14"/>
+                </StackPanel>
+
+                <!-- 4. ПАНЕЛЬ ДЕЙСТВИЙ СОТРУДНИКОВ -->
+                <StackPanel Grid.Row="5" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,15,0,5">
+                    <Button Content="Добавить новый заказ" Name="BtnCreateOrder" Click="BtnCreateOrder_Click" Width="180" Height="30" Background="#70B2AF" Foreground="White" Margin="0,0,10,0"/>
+                    <Button Content="Удалить позицию из состава" Name="BtnDeleteDetail" Click="BtnDeleteDetail_Click" Width="220" Height="30" Background="Orange" Foreground="White" Margin="0,0,10,0"/>
+                    <Button Content="Удалить весь заказ" Name="BtnDeleteOrder" Click="BtnDeleteOrder_Click" Width="150" Height="30" Background="IndianRed" Foreground="White"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+    </Grid>
+</Page>
